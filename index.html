@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trading Trust | Официальный портал</title>
-    <link href="https://googleapis.com" rel="stylesheet">
+    <!-- Респектабельные шрифты от Кувена (Medium 400 и Bold 700) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-deep: #161d26;
@@ -18,21 +19,23 @@
 
         body {
             margin: 0; padding: 0;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Montserrat', sans-serif; /* Шрифты Кувена */
             background-color: var(--bg-deep);
             color: var(--text-main);
             min-height: 100vh;
             display: flex; flex-direction: column; align-items: center;
             justify-content: center;
             padding: 40px 20px; box-sizing: border-box;
+            overflow-x: hidden;
         }
 
         header { text-align: center; margin-bottom: 60px; }
 
-        /* Объемный логотип */
+        /* Объемный логотип в стиле Playfair Display 700 */
         .brand-name {
             font-family: 'Playfair Display', serif;
             font-size: clamp(2.8rem, 9vw, 4.5rem);
+            font-weight: 700;
             margin: 0;
             background: linear-gradient(135deg, var(--gold-light) 0%, var(--accent-gold) 45%, var(--gold-dark) 100%);
             -webkit-background-clip: text;
@@ -55,7 +58,12 @@
             opacity: 0.7;
         }
 
-        #datetime { margin-top: 15px; color: #7a869a; font-size: 0.85rem; }
+        #datetime { 
+            margin-top: 15px; 
+            color: #7a869a; 
+            font-size: 0.85rem; 
+            font-weight: 400; /* Респектабельная плотность */
+        }
 
         /* Сетка контента */
         .content-wrapper {
@@ -82,8 +90,10 @@
         }
 
         .card span {
-            font-size: 0.85rem; font-weight: 500;
-            letter-spacing: 3px; text-transform: uppercase;
+            font-size: 0.85rem; 
+            font-weight: 700; /* Акцент на Bold, как у Кувена */
+            letter-spacing: 3px; 
+            text-transform: uppercase;
         }
 
         .card:hover {
@@ -97,28 +107,67 @@
             opacity: 0.4; border-radius: 8px 8px 0 0;
         }
 
-        /* Футер и Разработчики */
+        /* Футер и Механика */
         footer {
             margin-top: 60px;
             display: flex; flex-direction: column; align-items: center; gap: 15px;
         }
 
-        .gear-icon {
-            width: 32px; height: 32px; fill: var(--accent-gold);
-            animation: spin 8s linear infinite;
+        .mechanics-wrapper {
+            position: relative;
+            width: 80px;
+            height: 60px;
+            margin-bottom: 10px;
         }
 
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .gear {
+            position: absolute;
+            fill: url(#goldGradientGear);
+            filter: drop-shadow(0 2px 4px var(--shadow-dark));
+        }
+
+        .gear-main {
+            width: 40px; height: 40px;
+            left: 10px; top: 0;
+            animation: spin-right 8s linear infinite;
+        }
+
+        .gear-second {
+            width: 28px; height: 28px;
+            right: 12px; bottom: 5px;
+            animation: spin-left 6s linear infinite;
+            opacity: 0.8;
+        }
+
+        .mechanics-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 15px; left: 15px;
+            width: 10px; height: 10px;
+            background: var(--gold-light);
+            border-radius: 50%;
+            filter: blur(8px);
+            animation: core-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes spin-right { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes spin-left { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+        @keyframes core-pulse { 
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(2.5); opacity: 0.6; }
+        }
 
         .status-text {
-            font-size: 0.75rem; letter-spacing: 3px;
-            text-transform: uppercase; color: var(--accent-gold);
+            font-size: 0.75rem; 
+            letter-spacing: 3px;
+            text-transform: uppercase; 
+            color: var(--accent-gold);
+            font-weight: 700;
         }
 
-        .info-block { font-size: 0.8rem; color: #7a869a; text-align: center; margin-top: 20px; transition: 0.3s; }
-        .info-block a { color: var(--accent-gold); text-decoration: none; font-weight: 600; }
+        .info-block { font-size: 0.8rem; color: #7a869a; text-align: center; margin-top: 20px; }
+        .info-block a { color: var(--accent-gold); text-decoration: none; font-weight: 700; }
 
-        /* Стилизация имен разработчиков */
         .dev-names {
             background: linear-gradient(135deg, var(--gold-light) 0%, var(--accent-gold) 45%, var(--gold-dark) 100%);
             -webkit-background-clip: text;
@@ -130,7 +179,7 @@
         }
 
         .dev-credits:hover .dev-names {
-            filter: drop-shadow(0 4px 6px var(--shadow-dark)) drop-shadow(0 0 5px rgba(179, 147, 89, 0.2));
+            filter: drop-shadow(0 4px 6px var(--shadow-dark));
             transform: scale(1.05);
         }
 
@@ -141,6 +190,16 @@
     </style>
 </head>
 <body>
+
+    <svg style="width:0;height:0;position:absolute;">
+        <defs>
+            <linearGradient id="goldGradientGear" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:var(--gold-light);stop-opacity:1" />
+                <stop offset="50%" style="stop-color:var(--accent-gold);stop-opacity:1" />
+                <stop offset="100%" style="stop-color:var(--gold-dark);stop-opacity:1" />
+            </linearGradient>
+        </defs>
+    </svg>
 
     <header>
         <div class="brand-name">Trading Trust</div>
@@ -160,10 +219,15 @@
     </div>
 
     <footer>
-        <svg class="gear-icon" viewBox="0 0 24 24">
-            <path d="M12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5m10-2.42V10.92l-2.42-.42c-.19-.76-.49-1.48-.88-2.12l1.42-1.99-1.84-1.84-1.99 1.42c-.64-.39-1.36-.69-2.12-.88L13.08 2h-2.16l-.42 2.42c-.76.19-1.48.49-2.12.88L6.39 3.88 4.55 5.72l1.42 1.99c-.39.64-.69 1.36-.88 2.12L2.67 10.92v2.16l2.42.42c.19.76.49 1.48.88 2.12l-1.42 1.99 1.84 1.84 1.99-1.42c.64.39 1.36.69 2.12.88l.42 2.42h2.16l.42-2.42c.76-.19 1.48-.49 2.12-.88l1.99 1.42 1.84-1.84-1.42-1.99c.39-.64.69-1.36.88-2.12l2.42-.42z"/>
-        </svg>
-        <div class="status-text">сайт на стадии разработки</div>
+        <div class="mechanics-wrapper">
+            <svg class="gear gear-main" viewBox="0 0 24 24">
+                <path d="M12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5m10-2.42V10.92l-2.42-.42c-.19-.76-.49-1.48-.88-2.12l1.42-1.99-1.84-1.84-1.99 1.42c-.64-.39-1.36-.69-2.12-.88L13.08 2h-2.16l-.42 2.42c-.76.19-1.48.49-2.12.88L6.39 3.88 4.55 5.72l1.42 1.99c-.39.64-.69 1.36-.88 2.12L2.67 10.92v2.16l2.42.42c.19.76.49 1.48.88 2.12l-1.42 1.99 1.84 1.84 1.99-1.42c.64.39 1.36.69 2.12.88l.42 2.42h2.16l.42-2.42c.76-.19 1.48-.49 2.12-.88l1.99 1.42 1.84-1.84-1.42-1.99c.39-.64.69-1.36.88-2.12l2.42-.42z"/>
+            </svg>
+            <svg class="gear gear-second" viewBox="0 0 24 24">
+                <path d="M12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5m10-2.42V10.92l-2.42-.42c-.19-.76-.49-1.48-.88-2.12l1.42-1.99-1.84-1.84-1.99 1.42c-.64-.39-1.36-.69-2.12-.88L13.08 2h-2.16l-.42 2.42c-.76.19-1.48.49-2.12.88L6.39 3.88 4.55 5.72l1.42 1.99c-.39.64-.69 1.36-.88 2.12L2.67 10.92v2.16l2.42.42c.19.76.49 1.48.88 2.12l-1.42 1.99 1.84 1.84 1.99-1.42c.64.39 1.36.69 2.12.88l.42 2.42h2.16l.42-2.42c.76-.19 1.48-.49 2.12-.88l1.99 1.42 1.84-1.84-1.42-1.99c.39-.64.69-1.36.88-2.12l2.42-.42z"/>
+            </svg>
+        </div>
+        <div class="status-text">система в процессе настройки</div>
     </footer>
 
     <aside class="info-block contact-info">
