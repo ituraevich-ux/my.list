@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trading Trust | Официальный портал</title>
-    <!-- Исправленное подключение шрифтов -->
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root {
@@ -17,7 +16,7 @@
 
         body {
             margin: 0;
-            padding: 0;
+            padding: 40px 20px;
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-deep);
             color: var(--text-main);
@@ -26,22 +25,30 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
-            /* Изменил на auto, чтобы была прокрутка на мобильных */
-            overflow-x: hidden;
-            overflow-y: auto;
-            padding: 40px 20px;
             box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        /* Анимация проявления */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         header {
             text-align: center;
-            margin-bottom: clamp(30px, 8vh, 60px);
+            margin-bottom: 50px;
+            animation: fadeInUp 1s ease forwards;
         }
 
         .brand-name {
             font-family: 'Playfair Display', serif;
-            /* Динамический размер текста */
             font-size: clamp(2rem, 8vw, 3.5rem);
             letter-spacing: 3px;
             margin: 0;
@@ -50,7 +57,7 @@
 
         h1 {
             font-size: clamp(0.7rem, 2vw, 0.9rem);
-            letter-spacing: clamp(4px, 1vw, 8px);
+            letter-spacing: 6px;
             text-transform: uppercase;
             color: var(--accent-gold);
             margin-top: 10px;
@@ -58,82 +65,71 @@
         }
 
         #datetime {
-            margin-top: 20px;
-            font-weight: 300;
-            letter-spacing: 1px;
+            margin-top: 15px;
             color: #7a869a;
             font-size: 0.85rem;
+            font-weight: 300;
         }
 
         .grid-container {
             display: grid;
-            /* Автоматический расчет колонок: минимум 260px, максимум 1 часть пространства */
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: clamp(20px, 4vw, 35px);
+            gap: 30px;
             width: 100%;
             max-width: 900px;
         }
 
         .card {
             background: linear-gradient(145deg, #182029, #141a22);
-            border-radius: 4px;
-            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 6px;
             height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
             color: var(--text-main);
-            position: relative;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 8px 8px 16px var(--shadow-dark),
-                        -4px -4px 12px var(--shadow-light);
+            box-shadow: 10px 10px 20px var(--shadow-dark),
+                        -5px -5px 15px var(--shadow-light);
+            border-top: 1px solid rgba(179, 147, 89, 0.2);
+            opacity: 0; /* Скрыто до начала анимации */
+            animation: fadeInUp 0.8s ease forwards;
+            transition: all 0.3s ease;
         }
+
+        /* Задержка появления для каждой карточки */
+        .card:nth-child(1) { animation-delay: 0.2s; }
+        .card:nth-child(2) { animation-delay: 0.3s; }
+        .card:nth-child(3) { animation-delay: 0.4s; }
+        .card:nth-child(4) { animation-delay: 0.5s; }
+        .card:nth-child(5) { animation-delay: 0.6s; }
+        .card:nth-child(6) { animation-delay: 0.7s; }
 
         .card span {
             font-size: 0.8rem;
-            font-weight: 500;
             letter-spacing: 3px;
             text-transform: uppercase;
         }
 
-        .card:active {
-            transform: translateY(2px);
-            box-shadow: inset 4px 4px 8px var(--shadow-dark),
-                        inset -4px -4px 8px var(--shadow-light);
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: var(--accent-gold);
-            opacity: 0.6;
+        .card:hover {
+            transform: translateY(-5px);
+            border-top: 1px solid var(--accent-gold);
+            box-shadow: 15px 15px 30px var(--shadow-dark);
         }
 
         footer {
-            margin-top: clamp(40px, 10vh, 80px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
+            margin-top: 60px;
             text-align: center;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 1s;
+            opacity: 0;
         }
 
-        .gear-container {
-            position: relative;
-            width: 32px;
-            height: 32px;
-            filter: drop-shadow(0 0 5px rgba(179, 147, 89, 0.3));
-        }
-
-        .gear-icon {
-            width: 100%;
-            height: 100%;
-            fill: url(#gearGradient);
-            animation: spin 4s linear infinite;
+        .gear {
+            font-size: 2rem;
+            display: inline-block;
+            animation: spin 5s linear infinite;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
         }
 
         @keyframes spin {
@@ -146,48 +142,24 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--accent-gold);
-            font-weight: 500;
         }
 
-        .copyright {
-            font-size: 0.7rem;
-            color: #5d6a7e;
-            letter-spacing: 1.5px;
-        }
-
-        /* Информационные блоки: на ПК по бокам, на мобилках внизу */
         .info-block {
-            font-size: 0.85rem;
-            color: #7a869a;
-            letter-spacing: 1px;
-            margin-top: 30px;
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #5d6a7e;
             text-align: center;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 1.2s;
+            opacity: 0;
         }
 
-        .info-block a {
-            color: var(--accent-gold);
-            text-decoration: none;
-            font-weight: 500;
-            display: inline-block;
-            margin-top: 5px;
-        }
+        .info-block a { color: var(--accent-gold); text-decoration: none; }
 
-        /* Адаптация для больших экранов (возвращаем блоки в углы) */
-        @media (min-width: 1100px) {
-            .contact-info {
-                position: absolute;
-                bottom: 30px;
-                left: 40px;
-                text-align: left;
-                margin: 0;
-            }
-            .dev-credits {
-                position: absolute;
-                bottom: 30px;
-                right: 40px;
-                text-align: right;
-                margin: 0;
-            }
+        @media (min-width: 1000px) {
+            .contact-info { position: absolute; bottom: 30px; left: 40px; text-align: left; }
+            .dev-credits { position: absolute; bottom: 30px; right: 40px; text-align: right; }
         }
     </style>
 </head>
@@ -200,33 +172,22 @@
     </header>
 
     <div class="grid-container">
-        <a href="#" class="card"><span>Стратегия</span></a>
-        <a href="#" class="card"><span>Аналитика</span></a>
-        <a href="#" class="card"><span>Проекты</span></a>
-        <a href="#" class="card"><span>Документы</span></a>
-        <a href="#" class="card"><span>Капитал</span></a>
-        <a href="#" class="card"><span>Связь</span></a>
+        <div class="card"><span>Стратегия</span></div>
+        <div class="card"><span>Аналитика</span></div>
+        <div class="card"><span>Проекты</span></div>
+        <div class="card) "><span>Документы</span></div>
+        <div class="card"><span>Капитал</span></div>
+        <div class="card"><span>Связь</span></div>
     </div>
 
     <footer>
-        <div class="gear-container">
-            <svg class="gear-icon" viewBox="0 0 24 24">
-                <defs>
-                    <linearGradient id="gearGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#f1d39b;stop-opacity:1" />
-                        <stop offset="50%" style="stop-color:#b39359;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#7d633a;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <path d="M12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5m10-2.42V10.92l-2.42-.42c-.19-.76-.49-1.48-.88-2.12l1.42-1.99-1.84-1.84-1.99 1.42c-.64-.39-1.36-.69-2.12-.88L13.08 2h-2.16l-.42 2.42c-.76.19-1.48.49-2.12.88L6.39 3.88 4.55 5.72l1.42 1.99c-.39.64-.69 1.36-.88 2.12L2.67 10.92v2.16l2.42.42c.19.76.49 1.48.88 2.12l-1.42 1.99 1.84 1.84 1.99-1.42c.64.39 1.36.69 2.12.88l.42 2.42h2.16l.42-2.42c.76-.19 1.48-.49 2.12-.88l1.99 1.42 1.84-1.84-1.42-1.99c.39-.64.69-1.36.88-2.12l2.42-.42z"/>
-            </svg>
-        </div>
+        <div class="gear">⚙</div>
         <div class="status-text">сайт на стадии разработки</div>
-        <div class="copyright">© 2026 Trading Trust</div>
+        <div class="info-block copyright">© 2026 Trading Trust</div>
     </footer>
 
     <div class="info-block contact-info">
-        Связь с нами:
+        Связь с нами:<br>
         <a href="mailto:tora@oqtora.ru">tora@oqtora.ru</a>
     </div>
 
